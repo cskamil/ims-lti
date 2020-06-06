@@ -10,7 +10,8 @@
   ],
   "main": "./lib/ims-lti",
   "scripts": {
-    "prepublish": "make build"
+    "prepare": "npm run build",
+    "build": "make build"
   },
   "dependencies": {
     "xml2js": "~0.4.0",
