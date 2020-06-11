@@ -16,3 +16,4 @@ lib
 coverage
 
 ims-lti*.tgz
+.DS_Store
