@@ -24,10 +24,20 @@ optional_url_property_setter = (return_url) ->
 
 class ContentExtension
   constructor: (params) ->
-    @return_types    = params.ext_content_return_types.split(',')
+    #New parameters based on the updated protocol. Previous lines are commented out (those fields are not being passed for ContentItemSelectionRequest)
+    #TODO: Might be extracted as another extensions
+    #This extension is just being used to parse the params, none of the methods being used as all of them outdated
+      @accept_media_types = params.accept_media_types.split(',')
+      @accept_presentation_document_targets = params.accept_presentation_document_targets.split(',')
+      @content_item_return_url = params.content_item_return_url;
+      @accept_unsigned = params.accept_unsigned
+      @accept_multiple = params.accept_multiple
+      @accept_copy_advice = params.accept_copy_advice
+      @data = params.data
+    # @return_types    = params.ext_content_return_types.split(',')
     # According to the spec if the ext_content_return_url is not present launch_presentation_return_url is the fallback.
-    @return_url      = params.ext_content_return_url or params.launch_presentation_return_url
-    @file_extensions = (params.ext_content_file_extensions and params.ext_content_file_extensions.split(',')) or []
+    # @return_url      = params.ext_content_return_url or params.launch_presentation_return_url
+    # @file_extensions = (params.ext_content_file_extensions and params.ext_content_file_extensions.split(',')) or []
 
 
   has_return_type: (return_type) ->
@@ -138,7 +148,8 @@ class ContentExtension
 
 exports.init = (provider) ->
   # The extension is defined to exist if the ext_content_return_types parameter is present.
-  if provider.body.ext_content_return_types
+  # if provider.body.ext_content_return_types
+  if provider.body.lti_message_type is 'ContentItemSelectionRequest'
     provider.ext_content = new ContentExtension(provider.body)
   else
     provider.ext_content = false
